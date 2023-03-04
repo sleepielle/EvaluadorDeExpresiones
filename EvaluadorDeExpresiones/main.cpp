@@ -9,16 +9,30 @@ using std::endl;
 using std::cin;
 using std::string;
 
+
+enum validation {
+	userVariables,
+	fileVariables,
+	mixedVariables,
+	justNumbers,
+	invalid,
+	valid
+};	
+
 int main()
 {
-
+	validation testingCases= validation::invalid;
 	string expression = "";
 	InputValidator validate;
-	bool isValid = false;
+	bool containsUnary = false;
 	bool express = false;
 	bool ending = false;
 	bool contains = false;
+	bool userVars = false;
 	int option = 0;
+
+
+
 
 	do
 	{
@@ -33,23 +47,54 @@ int main()
 		case 1:
 		
 			system("cls");
-			cout << "Ingrese expresion." << endl;
-			cin >> expression;
-			isValid = validate.validateIfNotUnary(expression.c_str());
-			express = validate.validateMatchingParenthesis(expression.c_str());
-			ending = validate.validateExpressíonEnding(expression.c_str());
-			contains = validate.validateVariablesInFile(expression.c_str());
 
-
-			cout << (isValid ?  "No contiene el unario" :  " Si Contiene unario")<<endl;
-			cout << (express ? "Si cierra" : "No  cierra") << endl;
-			cout << (ending ? "No  Termina con operadores" : "Si termina con operadores") << endl;
 			
 
-			if (contains)
+			cout << "Ingrese expresion." << endl;
+			cin >> expression;
+
+
+			testingCases = (validate.validateAll(expression.c_str())) ? validation::valid : validation::invalid;
+			if (testingCases==validation::valid)
 			{
-				validate.identifyUserVariables(expression.c_str());
+				testingCases = (validate.identifyUserVariables(expression.c_str())) ? validation::userVariables : validation::valid;
+				testingCases = (validate.validateVariablesInFile(expression.c_str())) ? validation::fileVariables : validation::valid;
+				testingCases = (validate.validateVariablesInFile(expression.c_str()) && validate.identifyUserVariables(expression.c_str()))
+					? validation::mixedVariables : validation::valid;
+
+				testingCases = validate.checkIfContainsJustNumbers(expression.c_str()) ? validation::justNumbers : validation::valid;
+
 			}
+			else {
+				cout << "Ingrese nueva expresion" << endl;
+				break;
+			}
+
+		
+
+			switch ( testingCases) {
+			case validation::fileVariables:
+				break;
+			case validation::justNumbers:
+				cout << expression << endl;
+				break;
+			case validation::mixedVariables:
+				break;
+			case validation::userVariables:
+				break;
+			}
+
+
+			for (const auto& letter : validate.fileVariables) {
+				std::cout << "\Variables de archivo " << letter << " ";
+			}
+
+
+			cout << endl;
+			for (const auto& letter : validate.userVariables) {
+				std::cout << "Variables de usuario " << letter << " ";
+			}
+
 
 
 			break;
@@ -72,5 +117,12 @@ int main()
 	} while (option != 3);
 	_getch();
 
+
+
 	return 0;
 }
+
+//cout << (containsUnary ?  " contiene el unario" :  " no Contiene unario")<<endl;
+	//		cout << (express ? "Si cierra" : "No  cierra") << endl;
+	//		cout << (ending ? "No  Termina con operadores" : "Si termina con operadores") << endl;
+		//	cout << (userVars ? "Tiene variables de usuario" : "No tiene") << endl;

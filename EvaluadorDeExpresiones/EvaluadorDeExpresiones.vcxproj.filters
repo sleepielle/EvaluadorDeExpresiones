@@ -21,9 +21,15 @@
     <ClCompile Include="InputValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="InputType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
