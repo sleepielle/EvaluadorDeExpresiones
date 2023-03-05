@@ -127,23 +127,26 @@ bool InputValidator::checkIfContainsJustNumbers(const char* _data)
 
 bool InputValidator::identifyUserVariables(const char* _data)
 {
-	
-	for (int i = 0; i < strlen(_data); i++){
 
-				if (std::isalpha(_data[i]) ) {
-					std::string letter(1, _data[i]);
-					this->foundVariables.push_back(letter);
-				}
+	for (int i = 0; i < strlen(_data); i++) {
+		{
+			std::string letters(1, _data[i]);
+			if (std::find(foundVariables.begin(), foundVariables.end(), letters) != foundVariables.end()) {
+				break;
+			}
+			else if (std::isalpha(_data[i]) && !(std::find(foundVariables.begin(), foundVariables.end(), letters) != foundVariables.end())) {
+
+				this->foundVariables.push_back(letters);
+			}
+		}
 	}
-
 
 	if (this->foundVariables.size() != 0)
 	{
-		this->userVariables =	crossReferenceUserVariables(this->fileVariables, this->foundVariables);
+		this->userVariables = crossReferenceUserVariables(this->fileVariables, this->foundVariables);
 		return true;
 	}
 	return false;
-
 }
 
 std::vector<std::string> InputValidator::crossReferenceUserVariables(std::vector<std::string> fileVar, std::vector<std::string> userVar)

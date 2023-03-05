@@ -57,10 +57,10 @@ int main()
 			testingCases = (validate.validateAll(expression.c_str())) ? validation::valid : validation::invalid;
 			if (testingCases==validation::valid)
 			{
-				testingCases = (validate.identifyUserVariables(expression.c_str())) ? validation::userVariables : validation::valid;
+				
+			
 				testingCases = (validate.validateVariablesInFile(expression.c_str())) ? validation::fileVariables : validation::valid;
-				testingCases = (validate.validateVariablesInFile(expression.c_str()) && validate.identifyUserVariables(expression.c_str()))
-					? validation::mixedVariables : validation::valid;
+				testingCases = (validate.identifyUserVariables(expression.c_str())) ? validation::userVariables : validation::valid;
 
 				testingCases = validate.checkIfContainsJustNumbers(expression.c_str()) ? validation::justNumbers : validation::valid;
 
