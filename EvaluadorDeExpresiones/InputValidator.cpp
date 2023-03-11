@@ -18,7 +18,8 @@ bool InputValidator::validateIfContainsUnary(const char* _data)
 bool InputValidator::validateExpressíonEnding(const char* _data)
 {
 	int lastItem = strlen(_data) - 1;
-	return (_data[lastItem] == '+' || _data[lastItem] == '-' || _data[lastItem] == '/' || _data[lastItem] == '*' || _data[lastItem] == '(') ? false : true;
+	return (_data[lastItem] == '+' || _data[lastItem] == '-' || _data[lastItem] == '/' 
+		|| _data[lastItem] == '*' || _data[lastItem] == '(' || _data[lastItem] == '%') ? false : true;
 }
 
 bool InputValidator::validateMatchingParenthesis(const char* _data)
@@ -47,12 +48,19 @@ bool InputValidator::validateVariablesInFile(const char* _data)
 		return 1;
 	}
 
-	
-	std::regex pattern("\n|=");
+
+	std::regex pattern("[\n=&&[^%]");
 	std::smatch matcher;
 
-	
+
 	std::string line;
+	for (int i = 0; i < _data[i]; i++)
+	{
+		if (_data[i] == '%')
+		{
+			return false;
+		}
+	}
 
 	while (getline(file, line)) {
 		while (regex_search(line, matcher, pattern)) {
@@ -74,9 +82,8 @@ bool InputValidator::validateVariablesInFile(const char* _data)
 bool InputValidator::validateIfHasInvalidCharacters(std::string _data)
 {
 	
-	std::regex pattern("[a-zA-Z0-9()+\\-*/%]+(?!.*[{}\\[\\]])");
+	std::regex pattern("[a-zA-Z0-9()%+\\-*/]+(?!.*[{}\\[\\]])");
 
-	
 	if (std::regex_search(_data, pattern))
 		return false;
 	return true;
@@ -108,16 +115,24 @@ bool InputValidator::checkIfContainsJustNumbers(const char* _data)
 bool InputValidator::identifyUserVariables(const char* _data)
 {
 	for (int i = 0; i < strlen(_data); i++) {
-		{
-			std::string letters(1, _data[i]);
-			if (std::find(foundVariables.begin(), foundVariables.end(), letters) != foundVariables.end()) {
+		if (std::isalpha(_data[i])) {
+			std::string variableName;
+			variableName += _data[i];
+
+			while (std::isalpha(_data[i + 1])) {
+				i++;
+				variableName += _data[i];
+			}
+
+			if (std::find(foundVariables.begin(), foundVariables.end(), variableName) != foundVariables.end()) {
 				break;
 			}
-			else if (std::isalpha(_data[i]) && !(std::find(foundVariables.begin(), foundVariables.end(), letters) != foundVariables.end())) {
-				this->foundVariables.push_back(letters);
+			else {
+				foundVariables.push_back(variableName);
 			}
 		}
 	}
+
 
 	if (this->foundVariables.size() != 0)
 	{
@@ -133,7 +148,7 @@ bool InputValidator::identifyUserVariables(const char* _data)
 void InputValidator::convertToVector(const char* _data)
 {
 	string myString(data);
-	string regex2 = "[\\d.a-zA-Z]+|[-+*/()]";
+	string regex2 = "[\\d.a-zA-Z%]+|[-+*/()]";
 	std::smatch matcher;
 	std::regex pattern2(regex2);
 	int i = 0;

@@ -20,30 +20,31 @@ fileVariablesClass::fileVariablesClass(const char* _expression)
 void fileVariablesClass::readVariables(const char* data)
 {
 	std::ifstream file(this->filePath);
-	std::string line;
-	std::string identifier;
-	std::string value;
-	std::string myString(data);
+	std::string_view myString(data);
 
-	std::regex pattern("\n|=");
-	std::smatch matcher;
+	std::vector<std::string_view> fileVariablesId;
+	std::vector<std::string_view> fileVariablesValue;
 
-	while (getline(file, line)) {
-		while (regex_search(line, matcher, pattern)) {
-		
-			if (!(std::find(this->fileVariablesId.begin(), fileVariablesId.end(), matcher.prefix().str()) != fileVariablesId.end())) {
-				
-				this->fileVariablesId.push_back(matcher.prefix().str());
-			}
-	
-			line = matcher.suffix().str();
+	auto lines = std::ranges::views::split(myString, '\n');
+	for (auto line : lines) {
+		auto [key, val] = std::ranges::views::split(line, '=');
+		auto identifier = std::string_view(key.begin(), std::distance(key.begin(), key.end()));
+		auto value = std::string_view(val.begin(), std::distance(val.begin(), val.end()));
 
-			std::string line2 = matcher.prefix().str() + matcher.str() + matcher.suffix().str();
-			this->fileVariablesValue.push_back(line2);
-			line = matcher.prefix().str();
+		if (std::ranges::find(fileVariablesId, identifier) == fileVariablesId.end()) {
+			fileVariablesId.push_back(identifier);
 		}
+
+		fileVariablesValue.push_back(identifier.data());
+		fileVariablesValue.push_back("=");
+		fileVariablesValue.push_back(value.data());
+		fileVariablesValue.push_back("\n");
 	}
+
+	this->fileVariablesId = std::move(fileVariablesId);
+	this->fileVariablesValue = std::move(fileVariablesValue);
 }
+
 
 void fileVariablesClass::convertToVector(const char* data)
 {

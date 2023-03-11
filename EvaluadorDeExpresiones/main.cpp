@@ -55,12 +55,11 @@ int main()
 		{
 		case 1:
 
-			system("cls");
-
 			cout << "Ingrese expresion." << endl;
 			cin.ignore();
 			getline(cin, expression);
 
+			//generic lambda
 			expression.erase(std::remove_if(expression.begin(), expression.end(),
 				[](char& c) {
 					return std::isspace<char>(c, std::locale::classic());
@@ -70,7 +69,8 @@ int main()
 			testingCases = (validate.validateAll(expression.c_str())) ? validation::valid : validation::invalid;
 			if (testingCases == validation::valid)
 			{
-				testingCases = (validate.validateVariablesInFile(expression.c_str())) ? validation::fileVariables : validation::valid;
+				testingCases = (validate.validateVariablesInFile(expression.c_str())==true) ? validation::fileVariables : validation::valid;
+				
 
 				if (validate.identifyUserVariables(expression.c_str()) && testingCases == validation::fileVariables)
 				{
@@ -79,7 +79,7 @@ int main()
 				else if (validate.identifyUserVariables(expression.c_str()) && testingCases == validation::valid) {
 					testingCases = validation::userVariables;
 				}
-				else if (testingCases == validation::valid) {
+				 if (testingCases == validation::valid) {
 					testingCases = validation::justNumbers;
 				}
 			}

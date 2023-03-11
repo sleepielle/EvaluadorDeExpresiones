@@ -12,6 +12,13 @@
 #include <string_view>
 #include <iomanip>
 #include <regex>
+#include <fstream>        // for std::ifstream
+#include <ranges>         // for std::ranges::views::split
+#include <string>         // for std::string
+#include <string_view>    // for std::string_view
+#include <vector>         // for std::vector
+#include <algorithm>      // for std::ranges::find
+
 #include "Stack.h"
 class fileVariablesClass : public InputType
 {

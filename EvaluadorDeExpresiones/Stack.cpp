@@ -31,7 +31,7 @@ bool Stack::isEmpty() {
 }
 
 int Stack::precedence(const std::string& op) {
-	if (op == "*" || op == "/") {
+	if (op == "*" || op == "/" || op == "%") {
 		return 2;
 	}
 	else if (op == "+" || op == "-") {
@@ -142,6 +142,24 @@ int Stack::evaluatePostfix(vector<string>& infix)
 			postfix.pop_back();
 			expression = back2 * back1;
 			//cout << expression << endl;
+			postfix.push_back(expression);
+		}
+		else if (token == "^") {
+			back1 = postfix.back();
+			postfix.pop_back();
+			back2 = postfix.back();
+			postfix.pop_back();
+			expression = pow(back2,back1);
+			//cout << expression << endl;
+			postfix.push_back(expression);
+		}
+		else if (token == "%") {
+			back1 = postfix.back();
+			postfix.pop_back();
+			back2 = postfix.back();
+			postfix.pop_back();
+			expression = fmod(back1, back2);
+			cout <<"AA"<< expression << endl;
 			postfix.push_back(expression);
 		}
 	}
