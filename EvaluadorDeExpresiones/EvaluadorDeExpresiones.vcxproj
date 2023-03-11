@@ -128,13 +128,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="fileVariablesClass.cpp" />
     <ClCompile Include="InputType.cpp" />
     <ClCompile Include="InputValidator.cpp" />
+    <ClCompile Include="justNumbersClass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mixedVariablesClass.cpp" />
+    <ClCompile Include="Stack.cpp" />
+    <ClCompile Include="TDD.cpp" />
+    <ClCompile Include="userVariablesClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fileVariablesClass.h" />
     <ClInclude Include="InputType.h" />
     <ClInclude Include="InputValidator.h" />
+    <ClInclude Include="justNumbersClass.h" />
+    <ClInclude Include="mixedVariablesClass.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="TDD.h" />
+    <ClInclude Include="userVariablesClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

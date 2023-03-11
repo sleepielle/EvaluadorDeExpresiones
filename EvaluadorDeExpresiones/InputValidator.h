@@ -8,20 +8,23 @@
 #include <string>
 #include <regex>
 #include <vector>
+#include <sstream>
+#include <string>
+#include <vector>
+#include "InputType.h"
+#include "InputValidator.h"
+#include <iostream>
+#include <ranges>
+#include <string_view>
+#include <iomanip>
+#include <regex>
+#include <algorithm>
+#include <cctype>
 namespace fs = std::filesystem;
-
-
-
 
 class InputValidator
 {
-
-
 public:
-std::vector<std::string> fileVariables;
-std::vector<std::string> foundVariables;
-std::vector<std::string> userVariables;
-
 
 	InputValidator();
 	InputValidator(const char*);
@@ -36,22 +39,23 @@ std::vector<std::string> userVariables;
 	bool validateAll(const char*);
 	bool checkIfContainsJustNumbers(const char*);
 	bool identifyUserVariables(const char*);
+	string removeWhiteSpaces(string data);
+	void convertToVector(const char*);
+
 	//bool checkIfVarAlreadyExists
 
 	std::vector<std::string> identifyFileVariables(std::vector<std::string>);
-	
+
 	std::vector<std::string> crossReferenceUserVariables(std::vector<std::string>, std::vector<std::string>);
-
-
+	std::vector<std::string> fileVariablesId;
+	std::vector<std::string> fileVariablesValue;
+	std::vector<std::string> foundVariables;
+	std::vector<std::string> userVariables;
+	std::vector<std::string> expressionToVector;
 
 private:
 	char* data;
 	fs::path filePath = "expresiones.txt";
-
-
 };
 
-
 #endif // !INPUTVALIDATOR_H
-
-
