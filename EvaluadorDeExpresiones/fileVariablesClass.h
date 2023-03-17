@@ -8,7 +8,6 @@
 #include "InputType.h"
 #include "InputValidator.h"
 #include <iostream>
-#include <ranges>
 #include <string_view>
 #include <iomanip>
 #include <regex>
@@ -18,8 +17,13 @@
 #include <string_view>    // for std::string_view
 #include <vector>         // for std::vector
 #include <algorithm>      // for std::ranges::find
-
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <Filter.h>
+#include <map>
 #include "Stack.h"
+
 class fileVariablesClass : public InputType
 {
 public:
@@ -43,6 +47,7 @@ public:
 
 private:
 	char* expression;
+	std::map<std::string, std::string> fileVariables;
 	fs::path filePath = "expresiones.txt";
 
 };

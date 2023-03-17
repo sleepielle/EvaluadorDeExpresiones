@@ -29,7 +29,7 @@ public:
 	InputValidator();
 	InputValidator(const char*);
 
-	bool validateIfContainsUnary(const char*);
+	constexpr bool validateIfContainsUnary(const char*); //v11
 	bool validateExpressíonEnding(const char*);
 	bool validateMatchingParenthesis(const char*);
 	bool validateVariablesInFile(const char*);

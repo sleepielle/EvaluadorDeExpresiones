@@ -45,6 +45,9 @@
     <ClCompile Include="TDD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputValidator.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TDD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

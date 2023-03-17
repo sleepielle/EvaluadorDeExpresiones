@@ -2,6 +2,8 @@
 
 InputValidator::InputValidator() : data(nullptr)
 {
+	//v11 delegating constructor
+	//v11 nullptr keyword
 }
 
 InputValidator::InputValidator(const char* _data)
@@ -10,7 +12,7 @@ InputValidator::InputValidator(const char* _data)
 	strcpy_s(data, strlen(_data) + 1, _data);
 }
 
-bool InputValidator::validateIfContainsUnary(const char* _data)
+constexpr bool InputValidator::validateIfContainsUnary(const char* _data)
 {
 	return (_data[0] == '-') ? true : false;
 }
@@ -54,13 +56,6 @@ bool InputValidator::validateVariablesInFile(const char* _data)
 
 
 	std::string line;
-	for (int i = 0; i < _data[i]; i++)
-	{
-		if (_data[i] == '%')
-		{
-			return false;
-		}
-	}
 
 	while (getline(file, line)) {
 		while (regex_search(line, matcher, pattern)) {
@@ -182,5 +177,20 @@ std::vector<std::string> InputValidator::crossReferenceUserVariables(std::vector
 			result.push_back(user);
 		}
 	}
+
+	//std::vector<int> vec = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+	//auto even = [](int i) { return i % 2 == 0; };
+
+	//auto even_vec = vec | std::ranges::views::filter(even);
+
+	//for (int i : even_vec) {
+	//	std::cout << i << ' ';
+	//}
+
 	return result;
+
+
+
 }
+

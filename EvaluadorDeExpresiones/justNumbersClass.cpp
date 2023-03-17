@@ -29,7 +29,7 @@ void justNumbersClass::convertToVector()
 	}
 
 	for (const auto& letter : expressionToVector) {
-	std::cout  << letter << " ";
+
 }
 }
 

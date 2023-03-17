@@ -2,13 +2,13 @@
 
 #include <cctype>
 #include <stack>
+#include <future>
 Stack::Stack()  {
 	stack.resize(0);
 }
 
 Stack::Stack( vector<string> _data) {
-	stack = _data;
-
+	stack = std::move(_data); //v11 
 	evalInfix(stack);
 
 
@@ -88,6 +88,9 @@ void Stack::evalInfix(std::vector<std::string>& infix) {
 
 int Stack::evaluatePostfix(vector<string>& infix)
 {
+
+
+
 	vector<double> postfix;
 	double expression = 0;
 	double back1 = 0;
@@ -106,17 +109,30 @@ int Stack::evaluatePostfix(vector<string>& infix)
 			continue;
 		}
 
-	
+
 
 		if (token == "+") {
-			back1 = postfix.back();
+			auto async_add = [](double x, double y) -> std::future<double> {
+				auto promise = std::promise<double>();
+				auto future = promise.get_future();
+				promise.set_value(x + y);
+				return future;
+			};
+
+			// Pop the two operands from the postfix expression
+			double back1 = postfix.back();
 			postfix.pop_back();
-			back2 = postfix.back();
+			double back2 = postfix.back();
 			postfix.pop_back();
-			expression = back2 + back1;
-		//	cout << expression << endl;
-			postfix.push_back(expression);
+
+			// Call the async_add function with the two operands and wait for the result
+			auto result = async_add(back2, back1).get();
+
+			// Push the result back onto the postfix expression
+			postfix.push_back(result);
 		}
+
+
 		else if (token=="-") {
 			back1 = postfix.back();
 			postfix.pop_back();
@@ -131,9 +147,17 @@ int Stack::evaluatePostfix(vector<string>& infix)
 			postfix.pop_back();
 			back2 = postfix.back();
 			postfix.pop_back();
+			cout << "undefined" << endl;
+			if (back1 == 0)
+			{
+				return 0;
+			}
 			expression = back2 / back1;
+
 		//	cout << expression << endl;
 			postfix.push_back(expression);
+
+
 		}
 		else if (token == "*") {
 			back1 = postfix.back();
@@ -158,8 +182,8 @@ int Stack::evaluatePostfix(vector<string>& infix)
 			postfix.pop_back();
 			back2 = postfix.back();
 			postfix.pop_back();
+
 			expression = fmod(back1, back2);
-			cout <<"AA"<< expression << endl;
 			postfix.push_back(expression);
 		}
 	}
