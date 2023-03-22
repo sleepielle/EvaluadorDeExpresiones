@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Conan.0.0.1\build\native\conan.props" Condition="Exists('..\packages\Conan.0.0.1\build\native\conan.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -135,7 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="fileVariablesClass.cpp" />
+    <ClCompile Include="fileAndNumbersVariablesClass.cpp" />
     <ClCompile Include="InputType.cpp" />
     <ClCompile Include="InputValidator.cpp" />
     <ClCompile Include="justNumbersClass.cpp" />
@@ -147,17 +148,25 @@
     <ClCompile Include="userVariablesClass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="fileVariablesClass.h" />
+    <ClInclude Include="fileAndNumbersVariablesClass.h" />
     <ClInclude Include="InputType.h" />
     <ClInclude Include="InputValidator.h" />
     <ClInclude Include="justNumbersClass.h" />
-    <ClInclude Include="math.h" />
+    <ClInclude Include="math.ixx" />
     <ClInclude Include="mixedVariablesClass.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="TDD.h" />
     <ClInclude Include="userVariablesClass.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Conan.0.0.1\build\native\conan.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Conan.0.0.1\build\native\conan.props'))" />
+  </Target>
 </Project>

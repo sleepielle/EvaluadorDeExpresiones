@@ -22,9 +22,9 @@ public:
 	userVariablesClass(std::vector<string>, const char*);
 
 	//from virtual class
-	void readVariables(const char*);
-	void convertToVector(const char*);
-	void replaceVariableValues();
+	void readVariables(const char*) override;
+	void convertToVector(const char*) override;
+	void replaceVariableValues() override;
 
 	InputValidator* validate = new InputValidator();
 
@@ -34,7 +34,6 @@ public:
 
 private:
 	char* expression;
-
 };
 
 #endif // !USERVARIABLESCLASS_H

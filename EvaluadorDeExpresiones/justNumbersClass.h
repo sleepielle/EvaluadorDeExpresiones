@@ -21,11 +21,9 @@ public:
 	justNumbersClass();
 	justNumbersClass(const char*);
 
-
 	void convertToVector();
 	InputValidator* validate = new InputValidator();
 	std::vector<std::string> expressionToVector;
-
 
 private:
 	char* expression;

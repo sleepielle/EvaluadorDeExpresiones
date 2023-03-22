@@ -27,7 +27,7 @@
     <ClCompile Include="InputType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fileVariablesClass.cpp">
+    <ClCompile Include="fileAndNumbersVariablesClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Stack.cpp">
@@ -56,7 +56,7 @@
     <ClInclude Include="InputType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fileVariablesClass.h">
+    <ClInclude Include="fileAndNumbersVariablesClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stack.h">
@@ -74,8 +74,11 @@
     <ClInclude Include="TDD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="math.h">
+    <ClInclude Include="math.ixx">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

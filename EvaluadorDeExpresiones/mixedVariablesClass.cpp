@@ -1,6 +1,6 @@
 #include "mixedVariablesClass.h"
 
-#include "fileVariablesClass.h"
+#include "fileAndNumbersVariablesClass.h"
 #include <string>
 using std::string;
 
@@ -76,5 +76,3 @@ void mixedVariablesClass::replaceVariableValues()
 		i = 0;
 	}
 }
-
-	

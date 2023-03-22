@@ -26,9 +26,6 @@ class InputValidator
 {
 public:
 
-	InputValidator();
-	InputValidator(const char*);
-
 	constexpr bool validateIfContainsUnary(const char*); //v11
 	bool validateExpressíonEnding(const char*);
 	bool validateMatchingParenthesis(const char*);
@@ -40,7 +37,7 @@ public:
 	bool checkIfContainsJustNumbers(const char*);
 	bool identifyUserVariables(const char*);
 	string removeWhiteSpaces(string data);
-	void convertToVector(const char*);
+	void convertToVector(string);
 
 	//bool checkIfVarAlreadyExists
 

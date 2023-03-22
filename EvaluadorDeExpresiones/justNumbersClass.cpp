@@ -1,10 +1,8 @@
 #include "justNumbersClass.h"
 
-justNumbersClass::justNumbersClass():expression(nullptr)
+justNumbersClass::justNumbersClass() :expression(nullptr)
 {
-
 }
-
 
 justNumbersClass::justNumbersClass(const char* _expression)
 {
@@ -17,7 +15,8 @@ justNumbersClass::justNumbersClass(const char* _expression)
 void justNumbersClass::convertToVector()
 {
 	string myString(this->expression);
-	string regex2 = "[\\d.a-zA-Z]+|[-+*/()%]";
+	string regex2 = "[\\d.a-zA-Z^]+|[-+*/()%]";
+
 	std::smatch matcher;
 	std::regex pattern2(regex2);
 	int i = 0;
@@ -29,7 +28,5 @@ void justNumbersClass::convertToVector()
 	}
 
 	for (const auto& letter : expressionToVector) {
-
+	}
 }
-}
-

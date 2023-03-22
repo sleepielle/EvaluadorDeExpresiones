@@ -6,36 +6,32 @@
 #include <iostream>
 #include <filesystem>
 #include <algorithm>
-#include <cctype> 
+#include <cctype>
 using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
+
 class Stack {
 public:
+
 	Stack();
-	Stack( vector<string>);
-
-	~Stack();
-
+	Stack(vector<string>, bool);
 
 	void pop();
 	std::string& top();
 	bool isEmpty();
 	int precedence(const std::string& op);
 	void evalInfix(vector<string>& stack);
-	int evaluatePostfix(vector<string>&);
-	double print() ;
-
+	void evaluatePostfix(vector<string>&);
+	void print();
+	float answer;
 
 private:
 
-	 int symbolsSize;
-	 int numbersSize;
-
-	vector<string> stack;
-	double answer;
 	std::vector<std::string> postfix;
+	vector<string> stack;
+	float expression = 0,back1 = 0,back2 = 0;
 };
 
 #endif

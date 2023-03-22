@@ -1,16 +1,6 @@
 #include "InputValidator.h"
-
-InputValidator::InputValidator() : data(nullptr)
-{
-	//v11 delegating constructor
-	//v11 nullptr keyword
-}
-
-InputValidator::InputValidator(const char* _data)
-{
-	data = new char[strlen(_data) + 1];
-	strcpy_s(data, strlen(_data) + 1, _data);
-}
+#include "fileAndNumbersVariablesClass.h"
+#include <filesystem>
 
 constexpr bool InputValidator::validateIfContainsUnary(const char* _data)
 {
@@ -20,8 +10,8 @@ constexpr bool InputValidator::validateIfContainsUnary(const char* _data)
 bool InputValidator::validateExpressíonEnding(const char* _data)
 {
 	int lastItem = strlen(_data) - 1;
-	return (_data[lastItem] == '+' || _data[lastItem] == '-' || _data[lastItem] == '/' 
-		|| _data[lastItem] == '*' || _data[lastItem] == '(' || _data[lastItem] == '%') ? false : true;
+	return (_data[lastItem] == '+' || _data[lastItem] == '-' || _data[lastItem] == '/'
+		|| _data[lastItem] == '*' || _data[lastItem] == '(' || _data[lastItem] == '%' || _data[lastItem] == '^') ? false : true;
 }
 
 bool InputValidator::validateMatchingParenthesis(const char* _data)
@@ -43,41 +33,44 @@ bool InputValidator::validateMatchingParenthesis(const char* _data)
 
 bool InputValidator::validateVariablesInFile(const char* _data)
 {
-	std::ifstream file(this->filePath);
-	if (!fs::exists(filePath))
-	{
-		std::cout << "Error" << std::endl;
-		return 1;
-	}
-
-
-	std::regex pattern("[\n=&&[^%]");
+	fileVariablesId.resize(0);
+	fs::path file = this->filePath;
+	std::regex pattern("[\n=]");
 	std::smatch matcher;
-
 
 	std::string line;
 
-	while (getline(file, line)) {
-		while (regex_search(line, matcher, pattern)) {
+	if (fs::exists(filePath)) {   // v17
+		std::ifstream inputFileStream(filePath);
 
-			if (!(std::find(this->fileVariablesId.begin(), fileVariablesId.end(), matcher.prefix().str()) != fileVariablesId.end())) {
-
-				this->fileVariablesId.push_back(matcher.prefix().str());
-				line = matcher.suffix().str();
+		if (inputFileStream.is_open()) {
+			std::string line;
+			while (getline(inputFileStream, line)) {
+				while (regex_search(line, matcher, pattern)) {
+					if (!(std::find(this->fileVariablesId.begin(), fileVariablesId.end(), matcher.prefix().str()) != fileVariablesId.end())) {
+						this->fileVariablesId.push_back(matcher.prefix().str());
+						line = matcher.suffix().str();
+					}
+				}
 			}
+			inputFileStream.close();
+		}
+		else {
+			std::cerr << "Failed to open file: " << filePath << std::endl;
+			return 1;
 		}
 	}
-
-
-	file.close();
+	else {
+		std::cerr << "File not found: " << filePath << std::endl;
+		return 1;
+	}
 
 	return (fileVariablesId.size() != 0) ? true : false;
 }
 
 bool InputValidator::validateIfHasInvalidCharacters(std::string _data)
 {
-	
-	std::regex pattern("[a-zA-Z0-9()%+\\-*/]+(?!.*[{}\\[\\]])");
+	std::regex pattern("[a-zA-Z0-9()%+\\-*/^]+(?![^\\[\\]{}]*[}|~])");
 
 	if (std::regex_search(_data, pattern))
 		return false;
@@ -109,6 +102,9 @@ bool InputValidator::checkIfContainsJustNumbers(const char* _data)
 
 bool InputValidator::identifyUserVariables(const char* _data)
 {
+	foundVariables.resize(0);
+	userVariables.resize(0);
+
 	for (int i = 0; i < strlen(_data); i++) {
 		if (std::isalpha(_data[i])) {
 			std::string variableName;
@@ -128,7 +124,6 @@ bool InputValidator::identifyUserVariables(const char* _data)
 		}
 	}
 
-
 	if (this->foundVariables.size() != 0)
 	{
 		this->userVariables = crossReferenceUserVariables(this->fileVariablesId, this->foundVariables);
@@ -140,23 +135,19 @@ bool InputValidator::identifyUserVariables(const char* _data)
 	return false;
 }
 
-void InputValidator::convertToVector(const char* _data)
+void InputValidator::convertToVector(string _data)
 {
-	string myString(data);
-	string regex2 = "[\\d.a-zA-Z%]+|[-+*/()]";
+	string regex2 = "[\\d.a-zA-Z%^]+|[-+*/()]";
 	std::smatch matcher;
 	std::regex pattern2(regex2);
 	int i = 0;
 	int e = 0;
 
-	while (regex_search(myString, matcher, pattern2)) {
+	while (regex_search(_data, matcher, pattern2)) {
 		this->expressionToVector.push_back(matcher.str());
-		myString = matcher.suffix().str();
+		_data = matcher.suffix().str();
 	}
-
 }
-
-
 
 std::vector<std::string> InputValidator::crossReferenceUserVariables(std::vector<std::string> fileVar, std::vector<std::string> userVar)
 {
@@ -189,8 +180,4 @@ std::vector<std::string> InputValidator::crossReferenceUserVariables(std::vector
 	//}
 
 	return result;
-
-
-
 }
-
