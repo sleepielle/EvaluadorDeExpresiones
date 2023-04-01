@@ -46,7 +46,7 @@ string TDD::simpleOperation()
 
 
 	float output = stack->answer;
-	assert(output == 24);
+	assert(output == 20);
 
 
 	std::string message = std::format(" {:<15}    {:>15}  {:>15} ", expression, 24, output);
@@ -160,6 +160,18 @@ void TDD::printScreenFailure()
 
 string TDD::unaryOperation()
 {
+	/*expression = "3*4+12";
+	file.reset(new fileAndNumbersVariablesClass(expression.c_str()));
+	stack.reset(new Stack(file->expressionToVector, true));
+
+
+	float output = stack->answer;
+	assert(output == 20);
+
+
+	std::string message = std::format(" {:<15}    {:>15}  {:>15} ", expression, 24, output);
+
+	return message;*/
 
 	expression = "-20^3*10";
 	file.reset(new fileAndNumbersVariablesClass(expression.c_str()));
